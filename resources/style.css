@@ -1,0 +1,11 @@
+TABLE {border-collapse: collapse;}
+
+TH, TD {text-align: left;
+    border: thin solid black;
+    padding: 0.1em 1em;}
+
+.container-noise:hover .noise {display: block;}
+
+.noise {display: none;
+    background-color: rgb(255 192 192);}
+       
