@@ -4,27 +4,26 @@ in backtrace frames, by reversing the lexical substitutions by which they're
 rendered into valid Java names"
   (:require [clojure.string :refer [ends-with? join replace split starts-with?]]))
 
-(defn- dot-name
+(defn remove-anon
+  "Remove anonomous function elements from a `munged` name."
   [^String munged]
-  (let [parts (split munged #"\$")]
-    (replace
-     (first (remove #(starts-with? % "fn__") parts))
-     "_"
-     "-")))
+  (remove #(starts-with? % "fn__") 
+          (split munged #"[\.\$]")))
 
-(defn- fn-name
+(defn fn-name
+  "De-mung a `munged` function name"
   [^String munged]
-  (last (split (dot-name munged) #"\.")))
+  (replace (last (remove-anon munged)) "_" "-"))
 
-(defn- namespace-name
+(defn namespace-name
+  "De-mung a `munged` namspace name"
   [^String munged]
-  (join "." (butlast (split (dot-name munged) #"\."))))
+  (replace (join "." (butlast (remove-anon munged))) "_" "-"))
 
 (defn recover-function-name
   [^StackTraceElement frame]
   (when (ends-with? (.getFileName frame) ".clj")
-    (fn-name (.getClassName frame))
-    ))
+    (fn-name (.getClassName frame))))
 
 (defn recover-namespace-name
   [^StackTraceElement frame]

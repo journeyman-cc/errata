@@ -24,15 +24,52 @@ At present, the most useful entry point is
 
 ```clojure
 (show-html-back-trace error namespaces)
+(show-html-back-trace error)
+(show-html-back-trace)
+
 ```
 
 Example usage 
 
 ```clojure
-(show-html-back-trace err ["nrepl.middleware"])
+(use 'cc.journeyman.errata.core)
+
+;; an error to demonstrate with.
+(def error 
+  (try
+    (/ 1 0)
+    (catch Exception e e)))
+
+;; you can explicitly pass both exception object and list of namespace names
+(show-html-back-trace error ["nrepl.middleware"])
+
+;; `namespaces` defaults to those namespace names registered as interesting,
+;; so register one (or more)
+(register-interesting-ns! "nrepl.middleware")
+(show-html-back-trace error)
+
+;; `error` defaults to the current value of `*e`, so this does exactly the same
+;; as `(show-html-back-trace *e)`)`.
+(show-html-back-trace)
+
+;; you can also show error in the NREPL terminal.
+;; you can explicitly pass both exception object and list of namespace names
+(summarise-error error ["nrepl.middleware" "clojure.lang.Number"])
+
+;; `namespaces` defaults to registered interesting namespaces, as before.
+(register-interesting-ns! "clojure.lang.Number")
+(summarise-error error)
+
+;; `error` defaults to the current value of `*e`, so this does exactly the same
+;; as `(summarise-error *e)`)`.
+(summarise-error)
+
+;; Finally, for convenience working in the REPL, `serr` is a shortcut for 
+;; `summarise-error`
+(serr)
 ```
 
-## License
+# License
 
 Copyright © 2021 Simon Brooke
 

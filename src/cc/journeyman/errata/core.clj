@@ -13,7 +13,14 @@
     (/ 1 0)
     (catch Exception e e)))
 
-(defn show-interesting-trace
+(defn register-interesting-ns!
+  "Declare a `namespace` as interesting."
+  ;; This is essentially just a convenience function so that users don't have
+  ;; to explicitly load the registry namespace.
+  [namespace]
+  (interesting! namespace))
+
+(defn summarise-error
   "Show the interesting details of this `error`, considering these `namespaces`
 to be interesting, or the registered interests if no `namespaces` argument 
 is passed."
@@ -26,14 +33,12 @@ is passed."
       (filter :interesting? (classify-back-trace error namespaces)))))
    nil)
   ([^Exception error]
-   (show-interesting-trace error @interesting)))
+   (summarise-error error @interesting))
+  ([] (when *e (summarise-error *e))))
 
-(defn register-interesting-ns!
-  "Declare a `namespace` as interesting."
-  ;; This is essentially just a convenience function so that users don't have
-  ;; to explicitly load the registry namespace.
-  [namespace]
-  (interesting! namespace))
+(def serr 
+  "Convenience shortcut for `summarise-error`"
+  summarise-error)
 
 (defn show-html-back-trace
   "Show the back trace for this `error` as HTML folded to focus on these
@@ -44,7 +49,8 @@ is passed), in a browser window."
      (spit file (html-back-trace error namespaces))
      (browse-url (str "file:" (.getAbsolutePath file)))))
   ([^Exception error]
-   (show-html-back-trace error @interesting)))
+   (show-html-back-trace error @interesting))
+  ([] (when *e (show-html-back-trace *e))))
 
 ;; to demonstrate what this does, evaluate
 
