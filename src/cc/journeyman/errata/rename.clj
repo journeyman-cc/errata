@@ -16,7 +16,7 @@ rendered into valid Java names"
   [^String munged]
   (last (split (dot-name munged) #"\.")))
 
-(defn- ns-name
+(defn- namespace-name
   [^String munged]
   (join "." (butlast (split (dot-name munged) #"\."))))
 
@@ -29,4 +29,4 @@ rendered into valid Java names"
 (defn recover-namespace-name
   [^StackTraceElement frame]
   (when (ends-with? (.getFileName frame) ".clj")
-    (ns-name (.getClassName frame))))
+    (namespace-name (.getClassName frame))))
