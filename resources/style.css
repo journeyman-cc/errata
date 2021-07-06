@@ -6,6 +6,11 @@ TH, TD {text-align: left;
 
 .container-noise:hover .noise {display: block;}
 
+.frame TABLE {display: none;}
+
+.frame:hover TABLE {display: block;}
+
 .noise {display: none;
     background-color: rgb(255 192 192);}
-       
+
+

@@ -1,13 +1,16 @@
 (ns cc.journeyman.errata.core
   "Generate more useful backtraces."
-  (:require [clojure.java.browse :refer [browse-url]]
+  (:require [cc.journeyman.errata.rename :refer [recover-function-name
+                                                 recover-namespace-name]]
+            [clojure.java.browse :refer [browse-url]]
             [clojure.java.io :refer [resource]]
-            [clojure.string :refer [starts-with?]]
+            [clojure.string :refer [join starts-with?]]
             [hiccup.core :refer [html]])
   (:import [java.io File]))
 
 (def err
-  "An example exception for development use, will be removed before a release is made."
+  "An example exception for development use, will be removed before a release
+ is made."
   (try
     (/ 1 0)
     (catch Exception e e)))
@@ -24,9 +27,11 @@ these `namespaces` as interesting."
   [^StackTraceElement frame namespaces]
   (let [class-name (.getClassName frame)]
     {:interesting? (is-interesting? class-name namespaces)
-     :frame        frame
      :class        class-name
+     :frame        frame
      :file         (.getFileName frame)
+     :function     (recover-function-name frame)
+     :namespace    (recover-namespace-name frame)
      :line         (.getLineNumber frame)}))
 
 (defn classify-back-trace
@@ -54,21 +59,21 @@ these `namspaces`."
 ;;                "; classification: " classification
 ;;                "; accumulator: " (count accumulator)
 ;;                "; result: " (count result) "\n"))
-    (let [current (assoc (first remainder) :index count)] 
+    (let [current (assoc (first remainder) :index count)]
       (if (empty? remainder)
         (if (empty? accumulator)
           (reverse result)
           (reverse (cons (reverse accumulator) result)))
         (if (= classification (:interesting? current))
-          (recur (rest remainder) 
-                 classification 
-                 (cons current accumulator) 
-                 result 
+          (recur (rest remainder)
+                 classification
+                 (cons current accumulator)
+                 result
                  (inc count))
-          (recur (rest remainder) 
-                 (:interesting? current) 
-                 (list current) 
-                 (cons (reverse accumulator) result) 
+          (recur (rest remainder)
+                 (:interesting? current)
+                 (list current)
+                 (cons (reverse accumulator) result)
                  (inc count)))))))
 
 (defn map-to-table
@@ -77,6 +82,26 @@ these `namspaces`."
   [:table
    (map #(vector :tr [:th %] [:td (m %)])
         (keys m))])
+
+(defn html-frame
+  "format a single stack `frame`, presented as a map, as HTML."
+  [frame]
+  [:div {:class "frame"}
+   [:div {:class "headline"}
+    [:strong (if (:function frame)
+               (str
+                (recover-namespace-name (:frame frame))
+                "/"
+                (recover-function-name (:frame frame)))
+               (:class frame))]
+    (join
+     " "
+     [" at line"
+      (:line frame)
+      "of file"
+      (:file frame)])]
+   (map-to-table (dissoc frame :interesting? :frame))])
+
 
 (defn- html-group
   "Format a `group` of stack frames as HTML."
@@ -90,7 +115,7 @@ these `namspaces`."
       vector
       (concat [:div {:class interest}]
               (map
-               #(map-to-table (dissoc % :interesting? :frame))
+               #(html-frame %)
                group)))]))
 
 (defn html-back-trace
