@@ -1,7 +1,7 @@
 (ns cc.journeyman.errata.core
   "Generate more useful backtraces."
-  (:require [cc.journeyman.errata.back-trace :refer [classify-back-trace summarise-frame]]
-            [cc.journeyman.errata.html :refer [html-back-trace]]
+  (:require [cc.journeyman.errata.backtrace :refer [classify-backtrace summarise-frame]]
+            [cc.journeyman.errata.html :refer [html-backtrace]]
             [cc.journeyman.errata.registry :refer [interesting interesting!]]
             [clojure.java.browse :refer [browse-url]])
   (:import [java.io File]))
@@ -30,7 +30,7 @@ is passed."
      println 
      (map 
       summarise-frame 
-      (filter :interesting? (classify-back-trace error namespaces)))))
+      (filter :interesting? (classify-backtrace error namespaces)))))
    nil)
   ([^Exception error]
    (summarise-error error @interesting))
@@ -40,18 +40,18 @@ is passed."
   "Convenience shortcut for `summarise-error`"
   summarise-error)
 
-(defn show-html-back-trace
+(defn show-html-backtrace
   "Show the back trace for this `error` as HTML folded to focus on these
 interesting `namespaces` (or the registered interests if no `namespaces` argument
 is passed), in a browser window."
   ([^Exception error namespaces]
    (let [file (File/createTempFile "backtrace" ".html")]
-     (spit file (html-back-trace error namespaces))
+     (spit file (html-backtrace error namespaces))
      (browse-url (str "file:" (.getAbsolutePath file)))))
   ([^Exception error]
-   (show-html-back-trace error @interesting))
-  ([] (when *e (show-html-back-trace *e))))
+   (show-html-backtrace error @interesting))
+  ([] (when *e (show-html-backtrace *e))))
 
 ;; to demonstrate what this does, evaluate
 
-;; (show-html-back-trace err ["nrepl.middleware"])
+;; (show-html-backtrace err ["nrepl.middleware"])

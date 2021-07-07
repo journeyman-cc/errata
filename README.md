@@ -23,9 +23,9 @@ As further goals, I hope
 At present, the most useful entry point is
 
 ```clojure
-(show-html-back-trace error namespaces)
-(show-html-back-trace error)
-(show-html-back-trace)
+(show-html-backtrace error namespaces)
+(show-html-backtrace error)
+(show-html-backtrace)
 
 ```
 
@@ -41,16 +41,16 @@ Example usage
     (catch Exception e e)))
 
 ;; you can explicitly pass both exception object and list of namespace names
-(show-html-back-trace error ["nrepl.middleware"])
+(show-html-backtrace error ["nrepl.middleware"])
 
 ;; `namespaces` defaults to those namespace names registered as interesting,
 ;; so register one (or more)
 (register-interesting-ns! "nrepl.middleware")
-(show-html-back-trace error)
+(show-html-backtrace error)
 
 ;; `error` defaults to the current value of `*e`, so this does exactly the same
-;; as `(show-html-back-trace *e)`)`.
-(show-html-back-trace)
+;; as `(show-html-backtrace *e)`)`.
+(show-html-backtrace)
 
 ;; you can also show error in the NREPL terminal.
 ;; you can explicitly pass both exception object and list of namespace names

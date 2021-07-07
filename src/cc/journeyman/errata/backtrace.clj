@@ -1,11 +1,11 @@
-(ns cc.journeyman.errata.back-trace
+(ns cc.journeyman.errata.backtrace
   (:require [cc.journeyman.errata.registry :refer [interesting interesting?]]
             [cc.journeyman.errata.rename :refer [recover-function-name
                                                  recover-namespace-name]]
             [clojure.string :refer [join]]))
 
 (defn construct-entry-for-frame
-  "Construct an entry in a back-trace frame list for this `frame`, considering
+  "Construct an entry in a backtrace frame list for this `frame`, considering
 these `namespaces` as interesting."
   [^StackTraceElement frame namespaces]
   (let [class-name (.getClassName frame)]
@@ -17,7 +17,7 @@ these `namespaces` as interesting."
      :namespace    (recover-namespace-name frame)
      :line         (.getLineNumber frame)}))
 
-(defn classify-back-trace
+(defn classify-backtrace
   "Produce a classified list of the backtrace for this `error`, considering 
 these `namespaces` as interesting."
   [^Exception error namespaces]
@@ -41,12 +41,12 @@ these `namespaces` as interesting."
              "of file"
              (:file frame)]))
 
-(defn fold-back-trace
+(defn fold-backtrace
   "Return the backtrace of this `error` as a list of lists, such thet in each
 sublist every member has the same value for `:interesting?` as derived from 
 these `namspaces`."
   ([^Exception error namespaces]
-   (loop [remainder      (classify-back-trace error namespaces)
+   (loop [remainder      (classify-backtrace error namespaces)
           classification false
           accumulator    '()
           result         '()
@@ -72,4 +72,4 @@ these `namspaces`."
                   (cons (reverse accumulator) result)
                   (inc count)))))))
   ([^Exception error] 
-   (fold-back-trace error @interesting)))
+   (fold-backtrace error @interesting)))

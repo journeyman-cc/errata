@@ -7,18 +7,19 @@ rendered into valid Java names"
 (defn remove-anon
   "Remove anonomous function elements from a `munged` name."
   [^String munged]
-  (remove #(starts-with? % "fn__") 
-          (split munged #"[\.\$]")))
+  (remove #(starts-with? % "fn__")
+          (split munged #"\$")))
 
 (defn fn-name
   "De-mung a `munged` function name"
   [^String munged]
-  (replace (last (remove-anon munged)) "_" "-"))
+  (when (re-find #"\$" munged)
+    (replace (last (remove-anon munged)) "_" "-")))
 
 (defn namespace-name
   "De-mung a `munged` namspace name"
   [^String munged]
-  (replace (join "." (butlast (remove-anon munged))) "_" "-"))
+  (replace (first (split munged #"\$")) "_" "-"))
 
 (defn recover-function-name
   [^StackTraceElement frame]

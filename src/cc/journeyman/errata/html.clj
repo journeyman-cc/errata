@@ -1,6 +1,6 @@
 (ns cc.journeyman.errata.html
   "Format back traces as HTML."
-  (:require [cc.journeyman.errata.back-trace :refer [fold-back-trace]]
+  (:require [cc.journeyman.errata.backtrace :refer [fold-backtrace]]
             [cc.journeyman.errata.rename :refer [recover-function-name
                                                  recover-namespace-name]]
             [clojure.java.io :refer [resource]]
@@ -49,7 +49,7 @@
                #(html-frame %)
                group)))]))
 
-(defn html-back-trace
+(defn html-backtrace
   "Format the back trace for this `error` as HTML, folded to focus on these
 interesting `namespaces`."
   [^Exception error namespaces]
@@ -67,4 +67,4 @@ interesting `namespaces`."
        [:div {:class "backtrace"}]
        (map
         html-group
-        (remove empty? (fold-back-trace error namespaces)))))]]))
+        (remove empty? (fold-backtrace error namespaces)))))]]))
