@@ -1,4 +1,4 @@
-(defproject errata "0.1.0"
+(defproject cc.journeyman/errata "0.1.0"
   :cloverage {:output "docs/cloverage"
               :codecov? true}
   :codox {:metadata {:doc "FIXME: write docs"
@@ -24,8 +24,9 @@ frames likely to be of interest to the developer"
                   ["codox"]
                   ["cloverage"]
                   ["uberjar"]
-                  ["release"]
+                  ;; ["release"]
                   ["change" "version" "leiningen.release/bump-version"]
                   ["vcs" "commit"]]
   :repl-options {:init-ns cc.journeyman.errata.core}
+  :scm {:name "git" :url "https://github.com/journeyman-cc/errata"}
   :url "https://journeyman-cc.github.io/errata/")

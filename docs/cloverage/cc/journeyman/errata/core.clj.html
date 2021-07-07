@@ -1,0 +1,158 @@
+<html>
+ <head>
+   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <link rel="stylesheet" href="../../../coverage.css"/>  <title> cc/journeyman/errata/core.clj </title>
+ </head>
+ <body>
+<span class="covered" title="1 out of 1 forms covered">
+                001&nbsp;&nbsp;(ns&nbsp;cc.journeyman.errata.core
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                002&nbsp;&nbsp;&nbsp;&nbsp;&quot;Generate&nbsp;more&nbsp;useful&nbsp;backtraces.&quot;
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                003&nbsp;&nbsp;&nbsp;&nbsp;(:require&nbsp;[cc.journeyman.errata.backtrace&nbsp;:refer&nbsp;[classify-backtrace&nbsp;summarise-frame]]
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                004&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[cc.journeyman.errata.html&nbsp;:refer&nbsp;[html-backtrace]]
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                005&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[cc.journeyman.errata.registry&nbsp;:refer&nbsp;[interesting&nbsp;interesting!]]
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                006&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[clojure.java.browse&nbsp;:refer&nbsp;[browse-url]])
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                007&nbsp;&nbsp;&nbsp;&nbsp;(:import&nbsp;[java.io&nbsp;File]))
+                </span><br/>
+<span class="blank" title="0 out of 0 forms covered">
+                008&nbsp;&nbsp;
+                </span><br/>
+<span class="covered" title="1 out of 1 forms covered">
+                009&nbsp;&nbsp;(defn&nbsp;register-interesting-ns!
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                010&nbsp;&nbsp;&nbsp;&nbsp;&quot;Declare&nbsp;a&nbsp;`namespace`&nbsp;as&nbsp;interesting.&quot;
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                011&nbsp;&nbsp;&nbsp;&nbsp;;;&nbsp;This&nbsp;is&nbsp;essentially&nbsp;just&nbsp;a&nbsp;convenience&nbsp;function&nbsp;so&nbsp;that&nbsp;users&nbsp;don&#x27;t&nbsp;have
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                012&nbsp;&nbsp;&nbsp;&nbsp;;;&nbsp;to&nbsp;explicitly&nbsp;load&nbsp;the&nbsp;registry&nbsp;namespace.
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                013&nbsp;&nbsp;&nbsp;&nbsp;[namespace]
+                </span><br/>
+<span class="not-covered" title="0 out of 3 forms covered">
+                014&nbsp;&nbsp;&nbsp;&nbsp;(interesting!&nbsp;namespace))
+                </span><br/>
+<span class="blank" title="0 out of 0 forms covered">
+                015&nbsp;&nbsp;
+                </span><br/>
+<span class="covered" title="1 out of 1 forms covered">
+                016&nbsp;&nbsp;(defn&nbsp;summarise-error
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                017&nbsp;&nbsp;&nbsp;&nbsp;&quot;Show&nbsp;the&nbsp;interesting&nbsp;details&nbsp;of&nbsp;this&nbsp;`error`,&nbsp;considering&nbsp;these&nbsp;`namespaces`
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                018&nbsp;&nbsp;to&nbsp;be&nbsp;interesting,&nbsp;or&nbsp;the&nbsp;registered&nbsp;interests&nbsp;if&nbsp;no&nbsp;`namespaces`&nbsp;argument&nbsp;
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                019&nbsp;&nbsp;is&nbsp;passed.&quot;
+                </span><br/>
+<span class="covered" title="1 out of 1 forms covered">
+                020&nbsp;&nbsp;&nbsp;&nbsp;([^Exception&nbsp;error&nbsp;namespaces]
+                </span><br/>
+<span class="covered" title="2 out of 2 forms covered">
+                021&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(doall&nbsp;
+                </span><br/>
+<span class="covered" title="2 out of 2 forms covered">
+                022&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(map&nbsp;
+                </span><br/>
+<span class="covered" title="1 out of 1 forms covered">
+                023&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;println&nbsp;
+                </span><br/>
+<span class="covered" title="2 out of 2 forms covered">
+                024&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(map&nbsp;
+                </span><br/>
+<span class="covered" title="1 out of 1 forms covered">
+                025&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;summarise-frame&nbsp;
+                </span><br/>
+<span class="covered" title="7 out of 7 forms covered">
+                026&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(filter&nbsp;:interesting?&nbsp;(classify-backtrace&nbsp;error&nbsp;namespaces)))))
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                027&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;nil)
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                028&nbsp;&nbsp;&nbsp;&nbsp;([^Exception&nbsp;error]
+                </span><br/>
+<span class="not-covered" title="0 out of 6 forms covered">
+                029&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(summarise-error&nbsp;error&nbsp;@interesting))
+                </span><br/>
+<span class="not-covered" title="0 out of 6 forms covered">
+                030&nbsp;&nbsp;&nbsp;&nbsp;([]&nbsp;(when&nbsp;*e&nbsp;(summarise-error&nbsp;*e))))
+                </span><br/>
+<span class="blank" title="0 out of 0 forms covered">
+                031&nbsp;&nbsp;
+                </span><br/>
+<span class="covered" title="1 out of 1 forms covered">
+                032&nbsp;&nbsp;(def&nbsp;serr&nbsp;
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                033&nbsp;&nbsp;&nbsp;&nbsp;&quot;Convenience&nbsp;shortcut&nbsp;for&nbsp;`summarise-error`&quot;
+                </span><br/>
+<span class="covered" title="1 out of 1 forms covered">
+                034&nbsp;&nbsp;&nbsp;&nbsp;summarise-error)
+                </span><br/>
+<span class="blank" title="0 out of 0 forms covered">
+                035&nbsp;&nbsp;
+                </span><br/>
+<span class="covered" title="1 out of 1 forms covered">
+                036&nbsp;&nbsp;(defn&nbsp;show-html-backtrace
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                037&nbsp;&nbsp;&nbsp;&nbsp;&quot;Show&nbsp;the&nbsp;back&nbsp;trace&nbsp;for&nbsp;this&nbsp;`error`&nbsp;as&nbsp;HTML&nbsp;folded&nbsp;to&nbsp;focus&nbsp;on&nbsp;these
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                038&nbsp;&nbsp;interesting&nbsp;`namespaces`&nbsp;(or&nbsp;the&nbsp;registered&nbsp;interests&nbsp;if&nbsp;no&nbsp;`namespaces`&nbsp;argument
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                039&nbsp;&nbsp;is&nbsp;passed),&nbsp;in&nbsp;a&nbsp;browser&nbsp;window.&quot;
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                040&nbsp;&nbsp;&nbsp;&nbsp;([^Exception&nbsp;error&nbsp;namespaces]
+                </span><br/>
+<span class="not-covered" title="0 out of 4 forms covered">
+                041&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(let&nbsp;[file&nbsp;(File&#x2F;createTempFile&nbsp;&quot;backtrace&quot;&nbsp;&quot;.html&quot;)]
+                </span><br/>
+<span class="not-covered" title="0 out of 7 forms covered">
+                042&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(spit&nbsp;file&nbsp;(html-backtrace&nbsp;error&nbsp;namespaces))
+                </span><br/>
+<span class="not-covered" title="0 out of 6 forms covered">
+                043&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(browse-url&nbsp;(str&nbsp;&quot;file:&quot;&nbsp;(.getAbsolutePath&nbsp;file)))))
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                044&nbsp;&nbsp;&nbsp;&nbsp;([^Exception&nbsp;error]
+                </span><br/>
+<span class="not-covered" title="0 out of 6 forms covered">
+                045&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(show-html-backtrace&nbsp;error&nbsp;@interesting))
+                </span><br/>
+<span class="not-covered" title="0 out of 6 forms covered">
+                046&nbsp;&nbsp;&nbsp;&nbsp;([]&nbsp;(when&nbsp;*e&nbsp;(show-html-backtrace&nbsp;*e))))
+                </span><br/>
+<span class="blank" title="0 out of 0 forms covered">
+                047&nbsp;&nbsp;
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                048&nbsp;&nbsp;;;&nbsp;to&nbsp;demonstrate&nbsp;what&nbsp;this&nbsp;does,&nbsp;evaluate
+                </span><br/>
+<span class="blank" title="0 out of 0 forms covered">
+                049&nbsp;&nbsp;
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                050&nbsp;&nbsp;;;&nbsp;(show-html-backtrace&nbsp;err&nbsp;[&quot;nrepl.middleware&quot;])
+                </span><br/>
+ </body>
+</html>

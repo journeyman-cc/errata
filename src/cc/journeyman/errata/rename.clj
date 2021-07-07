@@ -22,11 +22,15 @@ rendered into valid Java names"
   (replace (first (split munged #"\$")) "_" "-"))
 
 (defn recover-function-name
+  "Recover the original Clojure function name (if any) represented by this 
+   stack `frame`."
   [^StackTraceElement frame]
   (when (ends-with? (.getFileName frame) ".clj")
     (fn-name (.getClassName frame))))
 
 (defn recover-namespace-name
+  "Recover the original Clojure namespace name (if any) represented by this 
+   stack `frame`."
   [^StackTraceElement frame]
   (when (ends-with? (.getFileName frame) ".clj")
     (namespace-name (.getClassName frame))))

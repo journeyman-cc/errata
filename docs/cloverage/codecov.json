@@ -1,0 +1,26 @@
+{"coverage":
+ {"cc/journeyman/errata/rename.clj":
+  [null, 1, null, null, null, null, null, 1, null, null, 1114, 490,
+   null, 1, null, null, 491, 490, null, 1, null, null, 345, null, 1,
+   null, null, null, 636, 488, null, 1, null, null, null, 476, 344],
+  "cc/journeyman/errata/registry.clj":
+  [null, 1, null, null, null, 1, null, 1, null, 1, null, null, 0, null,
+   1, null, null, 0, 0, 0, null, 1, null, 1, 1, 103, null, 0, 0, 0],
+  "cc/journeyman/errata/backtrace.clj":
+  [null, 1, null, null, null, null, null, null, 1, null, null, null,
+   476, 476, 476, 476, 476, 476, 476, 476, null, 1, null, null, null,
+   8, 8, 8, 472, 8, null, 1, null, null, 8, 0, 0, null, 0, 8, null, 8,
+   null, 8, null, 1, null, null, null, null, 0, null, null, null, null,
+   null, null, null, null, null, 0, 0, 0, 0, 0, 0, 0, null, null, null,
+   null, 0, null, null, null, null, null, 0],
+  "cc/journeyman/errata/html.clj":
+  [null, 1, null, null, null, null, null, null, null, null, 1, null,
+   null, 0, 0, 0, null, 1, null, null, 0, 0, 0, 0, 0, null, 0, 0, 0,
+   null, 0, 0, null, 0, 0, null, null, 1, null, null, 0, null, null, 0,
+   0, 0, 0, 0, 0, 0, 0, null, 1, null, null, null, 0, null, null, null,
+   null, null, 0, null, 0, 0, 0, 0, 0, 0, 0],
+  "cc/journeyman/errata/core.clj":
+  [null, 1, null, null, null, null, null, null, null, 1, null, null,
+   null, null, 0, null, 1, null, null, null, 8, 8, 8, 8, 8, 8, 8, null,
+   null, 0, 0, null, 1, null, 1, null, 1, null, null, null, null, 0, 0,
+   0, null, 0, 0, null, null, null, null]}}

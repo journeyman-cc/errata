@@ -1,4 +1,5 @@
 (ns cc.journeyman.errata.backtrace
+  "Extract useful backtrace information from Clojure exceptions."
   (:require [cc.journeyman.errata.registry :refer [interesting interesting?]]
             [cc.journeyman.errata.rename :refer [recover-function-name
                                                  recover-namespace-name]]
@@ -42,7 +43,7 @@ these `namespaces` as interesting."
              (:file frame)]))
 
 (defn fold-backtrace
-  "Return the backtrace of this `error` as a list of lists, such thet in each
+  "Return the backtrace of this `error` as a list of lists, such that in each
 sublist every member has the same value for `:interesting?` as derived from 
 these `namspaces`."
   ([^Exception error namespaces]
@@ -51,6 +52,7 @@ these `namspaces`."
           accumulator    '()
           result         '()
           count          0]
+;;;; Debugging! 
 ;;    (print (str "Remaining: " (count remainder)
 ;;                "; classification: " classification
 ;;                "; accumulator: " (count accumulator)

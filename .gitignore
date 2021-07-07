@@ -13,3 +13,6 @@ pom.xml.asc
 .hg/
 
 .lsp/
+.calva/
+
+.deploy-token

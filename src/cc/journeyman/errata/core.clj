@@ -6,13 +6,6 @@
             [clojure.java.browse :refer [browse-url]])
   (:import [java.io File]))
 
-(def err
-  "An example exception for development use, will be removed before a release
- is made."
-  (try
-    (/ 1 0)
-    (catch Exception e e)))
-
 (defn register-interesting-ns!
   "Declare a `namespace` as interesting."
   ;; This is essentially just a convenience function so that users don't have
