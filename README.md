@@ -18,6 +18,12 @@ As further goals, I hope
 6. To allow the user to set a flag in the REPL which, if set, will cause folded backtraces to be automatically opened in browser windows, whenever an uncaught exception propagates back to the REPL; or alternatively
 7. (Stretch goal) Rwnder the HTML in the nrepl terminal window using NCURSES graphics, much as [Lynx](https://en.wikipedia.org/wiki/Lynx_(web_browser)) or [w3m](http://w3m.sourceforge.net/) would.
 
+## Leiningen/Boot
+
+Include the following dependency:
+
+[![Clojars Project](https://img.shields.io/clojars/v/cc.journeyman/errata.svg)](https://clojars.org/cc.journeyman/errata)
+
 ## Usage
 
 At present, the most useful entry point is
