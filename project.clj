@@ -16,17 +16,17 @@ frames likely to be of interest to the developer"
             [lein-codox "0.10.7"]]
   ;; NOTE WELL: `lein release` won't work until we have a release repository
   ;; set, which we don't!
-  :release-tasks [["vcs" "assert-committed"]
-                  ["change" "version" "leiningen.release/bump-version" "release"]
-                  ["vcs" "commit"]
-                  ["vcs" "tag" "v." "--no-sign"]
-                  ["clean"]
-                  ["codox"]
-                  ["cloverage"]
-                  ["uberjar"]
-                  ;; ["release"]
-                  ["change" "version" "leiningen.release/bump-version"]
-                  ["vcs" "commit"]]
+  ;; :release-tasks [["vcs" "assert-committed"]
+  ;;                 ["change" "version" "leiningen.release/bump-version" "release"]
+  ;;                 ["vcs" "commit"]
+  ;;                 ["vcs" "tag" "v." "--no-sign"]
+  ;;                 ["clean"]
+  ;;                 ["codox"]
+  ;;                 ["cloverage"]
+  ;;                 ["uberjar"]
+  ;;                 ;; ["release"]
+  ;;                 ["change" "version" "leiningen.release/bump-version"]
+  ;;                 ["vcs" "commit"]]
   :repl-options {:init-ns cc.journeyman.errata.core}
   :scm {:name "git" :url "https://github.com/journeyman-cc/errata"}
   :url "https://journeyman-cc.github.io/errata/")
