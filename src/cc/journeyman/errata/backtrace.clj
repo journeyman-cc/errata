@@ -22,11 +22,12 @@ these `namespaces` as interesting."
   "Produce a classified list of the backtrace for this `error`, considering 
 these `namespaces` as interesting."
   [^Exception error namespaces]
-  (apply list
-         (map
-          (fn [frame]
-            (construct-entry-for-frame frame namespaces))
-          (.getStackTrace error))))
+  (when error
+    (apply list
+           (map
+            (fn [frame]
+              (construct-entry-for-frame frame namespaces))
+            (.getStackTrace error)))))
 
 (defn summarise-frame
   "Summarise a single stack `frame`, presented as a map."
@@ -73,5 +74,5 @@ these `namspaces`."
                   (list current)
                   (cons (reverse accumulator) result)
                   (inc count)))))))
-  ([^Exception error] 
+  ([^Exception error]
    (fold-backtrace error @interesting)))

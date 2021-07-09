@@ -3,8 +3,13 @@
   (:require [cc.journeyman.errata.backtrace :refer [classify-backtrace summarise-frame]]
             [cc.journeyman.errata.html :refer [html-backtrace]]
             [cc.journeyman.errata.registry :refer [interesting interesting!]]
-            [clojure.java.browse :refer [browse-url]])
+            [clojure.java.browse :refer [browse-url]]
+            [clojure.java.browse-ui :refer [open-url-in-swing]])
   (:import [java.io File]))
+
+(def ^:dynamic *errata-out-stream*
+  "The stream to which `errata` prints -- by default, the value of `*err*`"
+  *err*)
 
 (defn register-interesting-ns!
   "Declare a `namespace` as interesting."
@@ -18,18 +23,20 @@
 to be interesting, or the registered interests if no `namespaces` argument 
 is passed."
   ([^Exception error namespaces]
-   (doall 
-    (map 
-     println 
-     (map 
-      summarise-frame 
-      (filter :interesting? (classify-backtrace error namespaces)))))
+   (binding [*out* *errata-out-stream*]
+     (println (str (.getName (.getClass error)) ": " (.getMessage error)))
+     (doall
+      (map
+       println
+       (map
+        summarise-frame
+        (filter :interesting? (classify-backtrace error namespaces))))))
    nil)
   ([^Exception error]
    (summarise-error error @interesting))
   ([] (when *e (summarise-error *e))))
 
-(def serr 
+(def serr
   "Convenience shortcut for `summarise-error`"
   summarise-error)
 

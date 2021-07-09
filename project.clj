@@ -1,10 +1,12 @@
-(defproject cc.journeyman/errata "0.1.0"
-  :cloverage {:output "docs/cloverage"
-              :codecov? true}
+(defproject cc.journeyman/errata "0.1.1-SNAPSHOT"
+  :cloverage {:output "docs/cloverage"}
   :codox {:metadata {:doc "FIXME: write docs"
                      :doc/format :markdown}
           :output-path "docs"}
-  :dependencies [[hiccup "1.0.5"]
+  :dependencies [[clojure-lanterna "0.9.7"]
+                 [hiccup "1.0.5"]
+                 ;; [nrepl "0.3.1"]
+                 ;; [nrepl "0.4.0"]
                  [org.clojure/clojure "1.10.1"]]
   :deploy-repositories [["releases" :clojars]
                         ["snapshots" :clojars]]

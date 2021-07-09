@@ -4,8 +4,14 @@
             [cc.journeyman.errata.rename :refer [recover-function-name
                                                  recover-namespace-name]]
             [clojure.java.io :refer [resource]]
-            [clojure.string :refer [join starts-with?]]
+            [clojure.string :refer [join]]
             [hiccup.core :refer [html]]))
+
+;; TODO: I'd like to be able to open stacktraces in new, chromeless, HTML
+;; windows, but
+;; 1. I can't find a portable way of opening, from Java, a new window of the
+;; users preferred browser without chrome, and
+;; 2. The Swing JEditorPane doesn't honor the `hover` CSS pseudo-class. 
 
 (defn map->table
   "Format this map `m` as an HTML table."
@@ -68,3 +74,4 @@ interesting `namespaces`."
        (map
         html-group
         (remove empty? (fold-backtrace error namespaces)))))]]))
+

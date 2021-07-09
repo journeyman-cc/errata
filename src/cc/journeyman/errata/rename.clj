@@ -2,7 +2,7 @@
   "Recover the original Clojure function and namespace names from information 
 in backtrace frames, by reversing the lexical substitutions by which they're 
 rendered into valid Java names"
-  (:require [clojure.string :refer [ends-with? join replace split starts-with?]]))
+  (:require [clojure.string :refer [ends-with? replace split starts-with?]]))
 
 (defn remove-anon
   "Remove anonomous function elements from a `munged` name."
