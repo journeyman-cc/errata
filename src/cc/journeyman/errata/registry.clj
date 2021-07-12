@@ -1,4 +1,5 @@
 (ns cc.journeyman.errata.registry
+  "A registry for registering interest in namespaces."
   (:require [clojure.set :refer [difference]]
             [clojure.string :refer [starts-with?]]))
 

@@ -16,3 +16,9 @@ pom.xml.asc
 .calva/
 
 .deploy-token
+
+.settings/
+
+.classpath
+
+.project

@@ -2,7 +2,8 @@
   "Middleware to allow errata integration into `nrepl`, q.v."
   (:require 
    [errata.core :refer [summarise-error show-html-backtrace]]
-   [nrepl.middleware :as middleware :refer [set-descriptor!]]))
+   [nrepl.middleware :as middleware :refer [set-descriptor!]]
+   [nrepl.middleware.interruptible-eval :as eval]))
   
   
   (defn wrap-errata
@@ -11,7 +12,7 @@
   ;; NOTE: At this stage, this is simply a copy of the example at https://nrepl.org/nrepl/building_middleware.html
   (set-descriptor! #'wrap-errata
                    {:requires #{}
-                    :expects #{}
+                    :expects #{"eval"}
                     :handles {"evaluation"
                               {:doc "Provides better backtrace debugging."
                                :requires {"form" "The form to evaluate."}

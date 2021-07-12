@@ -3,8 +3,7 @@
   (:require [cc.journeyman.errata.backtrace :refer [classify-backtrace summarise-frame]]
             [cc.journeyman.errata.html :refer [html-backtrace]]
             [cc.journeyman.errata.registry :refer [interesting interesting!]]
-            [clojure.java.browse :refer [browse-url]]
-            [clojure.java.browse-ui :refer [open-url-in-swing]])
+            [clojure.java.browse :refer [browse-url]])
   (:import [java.io File]))
 
 (def ^:dynamic *errata-out-stream*
